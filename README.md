@@ -24,6 +24,7 @@ It covers **data extraction from public APIs**, **processing through Medallion l
 | **Docker**           | 26+                 | Containerization         |
 | **docker-compose**   | 3+                  | Service orchestration    |
 | **pytest**           | 8+                  | Automated testing        |
+| **jupyter/pyspark-notebook**          | Latest                  | Automated testing        |
 
 ## Project Structure
 
@@ -54,6 +55,14 @@ Before starting, make sure you have installed:
 - [docker-compose](https://docs.docker.com/compose/install/)  
 - [Git](https://git-scm.com/downloads)
 - [VSCode](https://code.visualstudio.com/)
+
+And guarantee these ports are open in your firewall:
+- 8080
+- 5433
+- 5432
+- 8501
+- 8888
+
 ## Environment Setup
 
 ### Clone the repository
@@ -71,3 +80,8 @@ docker compose build --no-cache
 docker compose up # If you want to debug the first execution, just in case....
 docker compose up -d # If you are more confident :D
 ```
+
+### Acessing the apps:
+
+After running the above, you should be able to access all Apps:
+

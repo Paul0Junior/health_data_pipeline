@@ -5,8 +5,8 @@
 This project aims to build a **complete health data pipeline** using Python.  
 It covers **data extraction from public APIs**, **processing through Medallion layers (Bronze, Silver, Gold)**, and **visualization with interactive dashboards**.
 
-
-
+The repository have pre-configurated itens, **but you should set some of them mannualy** on docker-compose.yaml, like login and passwords stuff (To access airflow, for exemple).
+I strong recommend that you use a .env file to do so.
 
 ## Technical Stack
 

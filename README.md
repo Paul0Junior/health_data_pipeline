@@ -56,6 +56,21 @@ Before starting, make sure you have installed:
 - [Git](https://git-scm.com/downloads)
 - [VSCode](https://code.visualstudio.com/)
 
+For this stack, you'll need some space on disk. Im considering here **only the space used for build the environment**:
+
+| REPOSITORY         | SIZE
+|----------------------------|
+| jupyter            | 7.48GB
+|----------------------------|
+| airflow-scheduler  | 3GB
+|----------------------------|
+| airflow-webserver  | 3GB
+|----------------------------|
+| streamlit          | 1.1GB
+|----------------------------|
+| postgres           | 629MB
+
+
 And guarantee these ports are open in your firewall:
 - 8080
 - 5433
@@ -81,7 +96,7 @@ docker compose up # If you want to debug the first execution, just in case....
 docker compose up -d # If you are more confident :D
 ```
 
-### Acessing the apps:
+### Acessing the apps
 
 After running the guide above, you should be able to access all Apps.
 If you are running on your local machine, these are the links you wanna access:

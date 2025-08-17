@@ -1,7 +1,7 @@
 
 # Health Data Pipeline
 
- 1. Overview
+## Overview
 This project aims to build a **complete health data pipeline** using Python.  
 It covers **data extraction from public APIs**, **processing through Medallion layers (Bronze, Silver, Gold)**, and **visualization with interactive dashboards**.
 

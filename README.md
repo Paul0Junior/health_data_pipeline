@@ -58,17 +58,13 @@ Before starting, make sure you have installed:
 
 For this stack, you'll need some space on disk. Im considering here **only the space used for build the environment**:
 
-| REPOSITORY         | SIZE
+| REPOSITORY         | SIZE  |
 |----------------------------|
-| jupyter            | 7.48GB
-|----------------------------|
-| airflow-scheduler  | 3GB
-|----------------------------|
-| airflow-webserver  | 3GB
-|----------------------------|
-| streamlit          | 1.1GB
-|----------------------------|
-| postgres           | 629MB
+| jupyter            | 7.48GB|
+| airflow-scheduler  | 3GB   |
+| airflow-webserver  | 3GB   |
+| streamlit          | 1.1GB | 
+| postgres           | 629MB |
 
 
 And guarantee these ports are open in your firewall:

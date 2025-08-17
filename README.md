@@ -13,7 +13,7 @@ It covers **data extraction from public APIs**, **processing through Medallion l
 | Component            | Recommended Version | Purpose                  |
 |----------------------|---------------------|--------------------------|
 | **Python**           | 3.11+               | Main programming language |
-| **Apache Airflow**   | 2.9.x               | Workflow orchestration   |
+| **Apache Airflow**   | 2.11x               | Workflow orchestration   |
 | **DuckDB**           | 1.1+                | Analytical queries over Parquet |
 | **Pandas**           | 2.2+                | Data transformations     |
 | **PyArrow**          | 16+                 | Parquet interoperability |
@@ -22,30 +22,27 @@ It covers **data extraction from public APIs**, **processing through Medallion l
 | **Streamlit**        | 1.36+               | Interactive dashboards   |
 | **Plotly**           | 5.22+               | Visualizations           |
 | **Docker**           | 26+                 | Containerization         |
-| **docker-compose**   | 2.25+               | Service orchestration    |
+| **docker-compose**   | 3+                  | Service orchestration    |
 | **pytest**           | 8+                  | Automated testing        |
 
 ## Project Structure
 
 ```
-health-pipeline/
+health_data_pipeline/
+├─ app/ # Streamlit/Dash app
 ├─ dags/ # Airflow DAGs
-├─ src/
-│ ├─ extract/ # API extractors
-│ ├─ load/ # Data loading (Parquet, DuckDB)
-│ ├─ transform/ # Cleaning and standardization
-│ ├─ dq/ # Data quality checks (pandera)
-│ └─ utils/ # Logging, retry, configs
-├─ data/
+├─ Data/
 │ ├─ bronze/ # Raw data
 │ ├─ silver/ # Standardized data
 │ └─ gold/ # Analytical datasets
-├─ dash/ # Streamlit/Dash app
-├─ tests/ # Unit and integration tests
-├─ docker-compose.yaml # Example config (see below)
-├─ Dockerfile
-├─ requirements.txt # Example dependencies (see below)
-├─ Makefile
+├─ logs/ # Airflow Logs
+├─ notebooks/ # Jupyter notebooks
+├─ postgres-init/ # Postgres init persistence
+├─ requirements/ # Requirements folder
+├─ docker-compose.yaml 
+├─ Dockerfile.airflow
+├─ Dockerfile.jupyter
+├─ Dockerfile.streamlit
 └─ README.md
 ```
 ## Prerequisites

@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
 
@@ -74,7 +74,7 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres/airflow
-      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__CORE__FERNET_KEY: '${AIRFLOW__CORE__FERNET_KEY}'
       AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:

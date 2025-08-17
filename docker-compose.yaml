@@ -1,16 +1,18 @@
-#version: '3.8'
+version: '3.8'
 
 services:
 
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
+      POSTGRES_USER: ${POSTGRES_USER:-airflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-airflow}
       POSTGRES_DB: airflow
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    env_file:
+      - .env
 
   airflow-webserver:
     build:
@@ -19,8 +21,8 @@ services:
     container_name: airflow_webserver
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: '${AIRFLOW__CORE__FERNET_KEY}'
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
       AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
@@ -35,6 +37,8 @@ services:
       - ./Data:/opt/airflow/Data
       - ./.env:/opt/airflow/.env
     command: webserver
+    env_file:
+      - .env
 
   airflow-scheduler:
     build:
@@ -43,8 +47,8 @@ services:
     container_name: airflow_scheduler
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: '${AIRFLOW__CORE__FERNET_KEY}'
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
       AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
@@ -57,6 +61,8 @@ services:
       - ./Data:/opt/airflow/Data
       - ./.env:/opt/airflow/.env
     command: scheduler
+    env_file:
+      - .env
 
   airflow-init:
     build:
@@ -67,7 +73,7 @@ services:
       - postgres
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres/airflow
       AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
       AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
@@ -88,6 +94,8 @@ services:
           --lastname User \
           --role Admin \
           --email admin@admin.com
+    env_file:
+      - .env
 
   jupyter:
     build:
@@ -110,13 +118,16 @@ services:
     
     restart: always
     command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
+    env_file:
+      - .env
+
   # Postgres db for tests:
   health_database:
     image: postgres:15
     container_name: health_database
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: ${POSTGRES_USER_HEALTH:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_HEALTH:-admin}
       POSTGRES_DB: health_database
     volumes:
       - health_database:/var/lib/postgresql/data
@@ -124,6 +135,8 @@ services:
     restart: unless-stopped
     ports:
       - "5433:5432"
+    env_file:
+      - .env
 
   streamlit:
     build:
@@ -137,15 +150,17 @@ services:
     depends_on:
       - health_database
     environment:
-      - DATABASE_URL=postgresql://admin:admin@health_database:5432/health_database
+      - DATABASE_URL=postgresql://${POSTGRES_USER_HEALTH:-admin}:${POSTGRES_PASSWORD_HEALTH:-admin}@health_database:5432/health_database
       - DB_HOST=health_database
       - DB_PORT=5432
-      - DB_USER=admin
-      - DB_PASSWORD=admin
+      - DB_USER=${POSTGRES_USER_HEALTH:-admin}
+      - DB_PASSWORD=${POSTGRES_PASSWORD_HEALTH:-admin}
       - DB_NAME=health_database
       - STREAMLIT_SERVER_RUN_ON_SAVE=true
       - STREAMLIT_SERVER_FILE_WATCHER_TYPE=auto
     restart: unless-stopped
+    env_file:
+      - .env
   
 volumes:
   health_database:

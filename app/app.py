@@ -4,7 +4,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Interface Básica", layout="centered")
 
-st.title("Bem-vindos à Interface Básica do Streamlit")
+st.title("Bem vindos à análise sobre HealthCare ")
 st.write("Esta é uma interface simples criada com Streamlit.")
 st.write("🚀 Teste de reload automático - edite este arquivo e veja as mudanças!")
 

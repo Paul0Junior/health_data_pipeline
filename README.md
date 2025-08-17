@@ -65,7 +65,7 @@ For this stack, you'll need some space on disk. Im considering here **only the s
 | airflow-webserver  | 3GB   |
 | streamlit          | 1.1GB | 
 | postgres           | 629MB |
-
+| Total storage      | 15.2GB|
 
 And guarantee these ports are open in your firewall:
 - 8080

@@ -12,7 +12,7 @@ nome = st.text_input("Digite seu nome:")
 if nome:
     st.success(f"Olá, {nome}! Seja bem-vindo(a).")
 
-numero = st.slider("Escolha um número", 0, 100, 50)
+numero = st.slider("Escolha um números", 0, 100, 50)
 st.write(f"Você selecionou o número: {numero}")
 
 if st.button("Clique aqui"):

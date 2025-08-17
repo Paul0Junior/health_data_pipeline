@@ -24,7 +24,7 @@ It covers **data extraction from public APIs**, **processing through Medallion l
 | **Docker**           | 26+                 | Containerization         |
 | **docker-compose**   | 3+                  | Service orchestration    |
 | **pytest**           | 8+                  | Automated testing        |
-| **jupyter/pyspark-notebook**          | Latest                  | Automated testing        |
+| **jupyter/pyspark-notebook**          | Latest                  | Testing, exploring data|
 
 ## Project Structure
 

@@ -21,6 +21,8 @@ python-dotenv
 pyyaml
 tqdm
 loguru
+pandera
+pytest
 
 # Adicionais
 #pyspark

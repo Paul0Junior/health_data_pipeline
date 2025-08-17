@@ -1,0 +1,23 @@
+# Streamlit
+streamlit
+
+# Visualização
+matplotlib
+seaborn
+plotly
+
+# Formatos e banco
+duckdb
+fastparquet
+sqlalchemy
+psycopg2-binary
+requests
+beautifulsoup4
+pyodbc
+
+# Manipulação
+pandas
+numpy
+pyarrow
+openpyxl
+xlrd

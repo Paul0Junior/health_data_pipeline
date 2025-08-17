@@ -1,0 +1,36 @@
+FROM jupyter/pyspark-notebook:latest
+
+# Instalar bibliotecas necessárias
+COPY requirements/jupyter.txt  /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y unixodbc unixodbc-dev gcc g++
+
+# Instala dependências do sqlcmd e ODBC driver
+RUN apt-get update && apt-get install -y curl gnupg apt-transport-https
+
+# Adiciona chave GPG da Microsoft
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+    rm microsoft.gpg
+
+# Adiciona repositório do SQL Server (Ubuntu 22.04 funciona em 24.04)
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" > /etc/apt/sources.list.d/mssql-release.list
+
+# Instala sqlcmd, unixODBC e ferramentas
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
+
+# Adiciona o caminho do sqlcmd ao PATH
+ENV PATH="${PATH}:/opt/mssql-tools/bin"
+
+# Instala driver ODBC 17 (opcional)
+RUN ACCEPT_EULA=Y apt-get install -y msodbcsql17 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Criar diretório para JARs e copiar JARs necessários
+RUN mkdir -p /home/jovyan/jars/
+COPY jars/*.jar /home/jovyan/jars/
+

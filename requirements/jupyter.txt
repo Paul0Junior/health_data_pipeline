@@ -1,0 +1,34 @@
+# Manipulação
+pandas
+numpy
+pyarrow
+openpyxl
+xlrd
+
+# Formatos e banco
+duckdb
+fastparquet
+sqlalchemy
+psycopg2-binary
+requests
+beautifulsoup4
+pyodbc
+
+# Visualização
+matplotlib
+seaborn
+plotly
+
+# Engenharia e ferramentas
+pydantic
+python-dotenv
+pyyaml
+tqdm
+loguru
+
+# Adicionais
+#pyspark
+pyodbc
+mysql-connector-python
+
+

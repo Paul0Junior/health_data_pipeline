@@ -1,0 +1,152 @@
+#version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  airflow-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: airflow_webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__DATABASE__SQL_ALCHEMY_POOL_ENABLED: 'True'
+    depends_on:
+      - postgres
+    ports:  
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./Data:/opt/airflow/Data
+      - ./.env:/opt/airflow/.env
+    command: webserver
+
+  airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: airflow_scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__DATABASE__SQL_ALCHEMY_POOL_ENABLED: 'True'
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./Data:/opt/airflow/Data
+      - ./.env:/opt/airflow/.env
+    command: scheduler
+
+  airflow-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: airflow_init
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'yH6O4qqWUBq2QnW9lal7X_NorONtX7wd-R9ZdKYUjTs='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'airflow'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./Data:/opt/airflow/Data
+      - ./.env:/opt/airflow/.env
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate
+        airflow users create \
+          --username admin \
+          --password admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@admin.com
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./jars:/home/jovyan/jars
+      - ./Data:/home/jovyan/work/Data
+      - ./.env:/home/jovyan/.env
+    environment:
+      - JUPYTER_TOKEN=
+      - GRANT_SUDO=yes
+      - JUPYTER_ENABLE_LAB=yes
+    
+    user: jovyan
+    
+    restart: always
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
+  # Postgres db for tests:
+  health_database:
+    image: postgres:15
+    container_name: health_database
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: health_database
+    volumes:
+      - health_database:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app:/app
+      - ./data:/app/data
+    depends_on:
+      - health_database
+    environment:
+      - DATABASE_URL=postgresql://admin:admin@health_database:5432/health_database
+      - DB_HOST=health_database
+      - DB_PORT=5432
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=health_database
+      - STREAMLIT_SERVER_RUN_ON_SAVE=true
+      - STREAMLIT_SERVER_FILE_WATCHER_TYPE=auto
+    restart: unless-stopped
+  
+volumes:
+  health_database:
+  postgres_data:

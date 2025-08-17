@@ -83,5 +83,11 @@ docker compose up -d # If you are more confident :D
 
 ### Acessing the apps:
 
-After running the above, you should be able to access all Apps:
+After running the guide above, you should be able to access all Apps.
+If you are running on your local machine, these are the links you wanna access:
+
+- [Airfow](http://localhost:8080/)
+- [Jupyter Notebook](http://localhost:8888/lab)
+- [Streamlit App](http://localhost:8501/)
+
 

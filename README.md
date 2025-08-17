@@ -58,8 +58,8 @@ Before starting, make sure you have installed:
 
 For this stack, you'll need some space on disk. Im considering here **only the space used for build the environment**:
 
-| REPOSITORY         | SIZE  |
-|----------------------------|
+| Image              | Size  |
+|--------------------|-------|
 | jupyter            | 7.48GB|
 | airflow-scheduler  | 3GB   |
 | airflow-webserver  | 3GB   |

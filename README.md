@@ -91,3 +91,6 @@ If you are running on your local machine, these are the links you wanna access:
 - [Streamlit App](http://localhost:8501/)
 
 
+### Final consideations
+
+I will keep improving this repository with my studies and experiences, and I hope this might help you in your data engineering journey too.

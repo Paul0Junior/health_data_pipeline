@@ -58,23 +58,16 @@ Before starting, make sure you have installed:
 
 ### Clone the repository
 ```bash
-git clone https://github.com/your-user/health-pipeline.git
-cd health-pipeline
+git clone https://github.com/Paul0Junior/health_data_pipeline.git
+cd health_data_pipeline
 ```
 
-### Create a Virtual Environment
+### Build up containers with Docker
 ```bash
-python -m venv .venv
-source .venv/bin/activate # Linux/Mac
-.venv\Scripts\activate # Windows
+docker compose build --no-cache
 ```
-
-### Install dependencies
+### Run containers
 ```bash
-pip Install -r requirements.txt
-```
-
-### Run with Docker (Full Environment including Airflow + Streamlit)
-```bash
-docker compose up --build -d
+docker compose up # If you want to debug the first execution, just in case....
+docker compose up -d # If you are more confident :D
 ```

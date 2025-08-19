@@ -4,3 +4,96 @@ logs/*
 jars
 Data/*
 !Data/.gitkeep
+
+
+# Byte-compiled / cache / logs
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Dados temporários
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.db
+*.sqlite3
+
+# Diretórios comuns
+.env
+.venv
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+pip-wheel-metadata/
+__pypackages__/
+
+# Arquivos de pacotes
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.spec
+
+# mypy / pytest / coverage
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytest_cache/
+.coverage
+.tox/
+.nox/
+.coverage.*
+htmlcov/
+.cache
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Jupyter Notebook outputs
+*.nbconvert.ipynb
+*.nbconvert/
+*.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# Arquivos do Docker
+*.pid
+*.seed
+*.bak
+
+# Logs
+*.log
+
+# Arquivos específicos de notebooks
+*.out
+*.bak
+.DS_Store
+
+# Arquivos temporários do sistema
+Thumbs.db
+*.swp
+*.swo

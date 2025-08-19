@@ -105,7 +105,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./notebooks:/home/jovyan/work
+      - ./notebooks:/home/jovyan/work/notebooks
       - ./jars:/home/jovyan/jars
       - ./Data:/home/jovyan/work/Data
       - ./.env:/home/jovyan/.env

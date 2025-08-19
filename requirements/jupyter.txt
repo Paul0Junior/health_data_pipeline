@@ -25,6 +25,7 @@ python-dotenv
 pyyaml
 tqdm
 loguru
+httpx
 
 # Adicionais
 #pyspark

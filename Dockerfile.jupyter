@@ -1,4 +1,4 @@
-FROM jupyter/pyspark-notebook:latest
+FROM jupyter/minimal-notebook:x86_64-ubuntu-22.04
 
 # Instalar bibliotecas necessárias
 COPY requirements/jupyter.txt  /tmp/requirements.txt

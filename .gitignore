@@ -97,3 +97,8 @@ ipython_config.py
 Thumbs.db
 *.swp
 *.swo
+
+# Demais armazenamentos
+*.sqlite3
+*.db
+*.parquet
